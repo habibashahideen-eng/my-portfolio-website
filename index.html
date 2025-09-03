@@ -366,14 +366,13 @@
 
       emailjs.sendForm('contact_form', 'template_jlk8ai3', this)
         .then(() => {
-  // Get user input values
+  // Get user input values BEFORE reset
   const name = document.getElementById('user_name').value;
   const email = document.getElementById('user_email').value;
   const phone = document.getElementById('user_phone').value;
   const message = document.getElementById('user_message').value;
 
-
-  console.log(name, email, phone, message); // ✅ check if values aa rahe hain
+  console.log(name, email, phone, message);
 
   // Show notification with user details
   Swal.fire({
@@ -393,8 +392,10 @@
     timerProgressBar: true,
   });
 
-  form.reset(); // clear form
+  // Clear form AFTER notification
+  form.reset();
 })
+
 
 .catch((error) => {
   Swal.fire({
