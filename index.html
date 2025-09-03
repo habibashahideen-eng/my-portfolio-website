@@ -366,25 +366,27 @@
 
       emailjs.sendForm('contact_form', 'template_jlk8ai3', this)
         .then(() => {
-  // Get user input values BEFORE reset
+  // 1️⃣ Get user input BEFORE reset
   const name = document.getElementById('user_name').value;
   const email = document.getElementById('user_email').value;
   const phone = document.getElementById('user_phone').value;
   const message = document.getElementById('user_message').value;
 
-  console.log(name, email, phone, message);
+   console.log('Form Details:', { name, email, phone, message });
+   
+  // 2️⃣ Build HTML string carefully
+  let detailsHTML = '';
+  detailsHTML += '<p>Thank you! Your message has been sent.</p>';
+  detailsHTML += '<p><strong>Name:</strong> ' + name + '</p>';
+  detailsHTML += '<p><strong>Email:</strong> ' + email + '</p>';
+  detailsHTML += '<p><strong>Phone:</strong> ' + phone + '</p>';
+  detailsHTML += '<p><strong>Message:</strong> ' + message + '</p>';
 
-  // Show notification with user details
+  // 3️⃣ Show notification
   Swal.fire({
     icon: 'success',
     title: 'Message Sent!',
-    html: `
-      <p>Thank you! Your message has been sent.</p>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone}</p>
-      <p><strong>Message:</strong> ${message}</p>
-    `,
+    html: detailsHTML, // <- template string replaced with concatenated string
     timer: 5000,
     showConfirmButton: false,
     background: '#f0f9ff',
@@ -392,7 +394,7 @@
     timerProgressBar: true,
   });
 
-  // Clear form AFTER notification
+  // 4️⃣ Reset form AFTER notification
   form.reset();
 })
 
