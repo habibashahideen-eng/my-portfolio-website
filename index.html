@@ -242,7 +242,7 @@
 
    <!-- Contact Form -->
 <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-md pb-10" data-aos="fade-up">
-  <form id="contact-form" onsubmit="showSuccess(event)">
+  <form id="contact-form" >
     
     <!-- ⭐ Name Field -->
     <div class="mb-4">
@@ -305,12 +305,15 @@
     </div>
 
     <!-- ⭐ Submit Button -->
-    <button 
-      type="submit" 
-      class="w-full bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-800 transition-all"
-    >
-      Send Message
-    </button>
+    <button
+  id="submit-btn"
+  type="submit"
+  class="w-full bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-800 transition-all"
+>
+  <span id="btn-text">Send Message</span>
+  <span id="btn-spinner" class="hidden">⏳</span>
+</button>
+
   </form>
 
   <!-- ⭐ Success Message -->
@@ -340,14 +343,12 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>AOS.init();</script>
 
-<!-- EmailJS SDK -->
+<!-- EmailJS & SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-  (function () {
-    emailjs.init("THhXVsaTuTowX2Oom"); // ✅ Your User ID
-  })();
+  emailjs.init("THhXVsaTuTowX2Oom"); // ✅ Your User ID
 
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('contact-form');
@@ -358,6 +359,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
+      // Disable button & show spinner
       submitBtn.disabled = true;
       btnText.textContent = 'Sending...';
       btnSpinner.classList.remove('hidden');
@@ -375,7 +377,7 @@
             timerProgressBar: true,
           });
 
-          form.reset();
+          form.reset(); // clear form
         })
         .catch((error) => {
           Swal.fire({
@@ -386,6 +388,7 @@
           console.error('EmailJS Error:', error);
         })
         .finally(() => {
+          // Enable button & hide spinner
           submitBtn.disabled = false;
           btnText.textContent = 'Send Message';
           btnSpinner.classList.add('hidden');
